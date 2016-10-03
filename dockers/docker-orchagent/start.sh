@@ -5,7 +5,7 @@ function start_app {
     portsyncd $PORTSYNCD_ARGS &
     intfsyncd &
     neighsyncd &
-    swssconfig &
+    swssconfig /etc/ssw/AS7512/copp.json &
 }
 
 function clean_up {
