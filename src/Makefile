@@ -106,7 +106,7 @@ p4/swss_1.0.0_amd64.deb: p4/syncd_1.0.0_amd64.deb p4/libsairedis_1.0.0_amd64.deb
 	cp swss_1.0.0_amd64.deb p4/
 
 $(addprefix sonic-linux-kernel/,linux-headers-3.16.0-4-amd64_3.16.7-ckt11-2+acs8u2_amd64.deb linux-headers-3.16.0-4-common_3.16.7-ckt11-2+acs8u2_amd64.deb linux-image-3.16.0-4-amd64-dbg_3.16.7-ckt11-2+acs8u2_amd64.deb linux-image-3.16.0-4-amd64_3.16.7-ckt11-2+acs8u2_amd64.deb xen-linux-system-3.16.0-4-amd64_3.16.7-ckt11-2+acs8u2_amd64.deb):
-	pushd sonic-linux-kernel; sudo ./build.sh; popd
+	pushd sonic-linux-kernel; sudo ./build.sh $(LINUX_PATCH); popd
 
 initramfs-tools/initramfs-tools_0.120_all.deb:
 	pushd initramfs-tools; ./build.sh; popd
