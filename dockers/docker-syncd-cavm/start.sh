@@ -12,6 +12,7 @@ while true; do
 
     if [ "$result" == "PONG" ]; then
 
+        redis-cli FLUSHALL
         syncd -p /etc/ssw/AS7512/profile.ini -N
         break
 
