@@ -90,8 +90,8 @@ trap_push clean_sys
 sudo LANG=C chroot $FILESYSTEM_ROOT mount sysfs /sys -t sysfs
 
 ## Pointing apt to public apt mirrors and getting latest packages, needed for latest security updates
-sudo cp dockers/docker-base/sources.list $FILESYSTEM_ROOT/etc/apt/
-sudo cp files/apt/apt.conf.d/81norecommends $FILESYSTEM_ROOT/etc/apt/apt.conf.d/
+sudo cp files/apt/sources.list $FILESYSTEM_ROOT/etc/apt/
+sudo cp files/apt/apt.conf.d/{81norecommends,apt-{clean,gzip-indexes,no-languages}} $FILESYSTEM_ROOT/etc/apt/apt.conf.d/
 sudo LANG=C chroot $FILESYSTEM_ROOT bash -c 'apt-mark auto `apt-mark showmanual`'
 
 ## Note: set lang to prevent locale warnings in your chroot
@@ -183,7 +183,9 @@ sudo LANG=C chroot $FILESYSTEM_ROOT apt-get -y install      \
     bsdmainutils            \
     ca-certificates         \
     i2c-tools               \
-    efibootmgr
+    efibootmgr              \
+    usbutils                \
+    pciutils
 
 ## Remove sshd host keys, and will regenerate on first sshd start
 sudo rm -f $FILESYSTEM_ROOT/etc/ssh/ssh_host_*_key*
@@ -196,6 +198,11 @@ sudo augtool --autosave "set /files/etc/ssh/sshd_config/UseDNS no" -r $FILESYSTE
 sudo mkdir -p $FILESYSTEM_ROOT/var/core
 sudo augtool --autosave "
 set /files/etc/sysctl.conf/kernel.core_pattern '|/usr/bin/coredump-compress %e %p'
+
+set /files/etc/sysctl.conf/net.ipv4.conf.default.forwarding 1
+set /files/etc/sysctl.conf/net.ipv4.conf.all.forwarding 1
+set /files/etc/sysctl.conf/net.ipv4.conf.eth0.forwarding 0
+
 set /files/etc/sysctl.conf/net.ipv4.conf.default.arp_accept 0
 set /files/etc/sysctl.conf/net.ipv4.conf.default.arp_announce 0
 set /files/etc/sysctl.conf/net.ipv4.conf.default.arp_filter 0
@@ -206,6 +213,13 @@ set /files/etc/sysctl.conf/net.ipv4.conf.all.arp_announce 1
 set /files/etc/sysctl.conf/net.ipv4.conf.all.arp_filter 0
 set /files/etc/sysctl.conf/net.ipv4.conf.all.arp_notify 1
 set /files/etc/sysctl.conf/net.ipv4.conf.all.arp_ignore 2
+
+set /files/etc/sysctl.conf/net.ipv6.conf.default.forwarding 1
+set /files/etc/sysctl.conf/net.ipv6.conf.all.forwarding 1
+set /files/etc/sysctl.conf/net.ipv6.conf.eth0.forwarding 0
+
+set /files/etc/sysctl.conf/net.ipv6.conf.default.accept_dad 0
+set /files/etc/sysctl.conf/net.ipv6.conf.all.accept_dad 0
 " -r $FILESYSTEM_ROOT
 
 ## docker-py is needed by Ansible docker module

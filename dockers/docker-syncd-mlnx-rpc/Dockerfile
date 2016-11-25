@@ -16,6 +16,7 @@ RUN apt-get update \
     python-dev          \
     wget                \
     cmake               \
+    supervisor          \
  && wget https://github.com/nanomsg/nanomsg/archive/1.0.0.tar.gz \
  && tar xvfz 1.0.0.tar.gz \
  && cd nanomsg-1.0.0    \
@@ -26,8 +27,8 @@ RUN apt-get update \
  && cd ..               \
  && rm -fr nanomsg-1.0.0 \
  && rm -f 1.0.0.tar.gz  \
- && pip install cffi    \
- && pip install --upgrade cffi \
+ && pip install cffi==1.7.0    \
+ && pip install --upgrade cffi==1.7.0 \
  && pip install nnpy    \
  && mkdir -p /opt       \
  && cd /opt             \
@@ -43,6 +44,6 @@ COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY ptf_nn_agent.conf /etc/supervisor/conf.d/ptf_nn_agent.conf
 
 ENTRYPOINT service rsyslog start \
+    && sysctl -w net.core.rmem_max=509430500 \
     && service syncd start       \
-    && while [ "x$( ifconfig Ethernet12 | grep RUNNING )" = 'x' ] ; do sleep 1 ; done \
     && /usr/bin/supervisord

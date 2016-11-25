@@ -1,3 +1,5 @@
+Mellanox[![Mellanox](https://sonic-jenkins.westus.cloudapp.azure.com/job/mellanox/job/buildimage-mlnx-all/badge/icon)](https://sonic-jenkins.westus.cloudapp.azure.com/job/mellanox/job/buildimage-mlnx-all)
+
 # Build SONiC Switch Images - buildimage
 
 # Description
@@ -10,7 +12,7 @@ Build a docker image by [the Dockerfile](https://github.com/Azure/sonic-build-to
     git clone https://github.com/Azure/sonic-build-tools
     cd sonic-build-tools
     ./build.sh sonic-slave
-    docker run -v /var/run/docker.sock:/var/run/docker.sock -it local/sonic-slave bash
+    docker run -v /var/run/docker.sock:/var/run/docker.sock -it --privileged local/sonic-slave bash
     
 Note that all the below steps should be executed in the docker container, not in the host machine.
 
