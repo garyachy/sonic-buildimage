@@ -140,6 +140,9 @@ p4-switch_1.0.0_amd64.deb: thrift-compiler_0.9.3-2_amd64.deb python-thrift_0.9.3
 	pushd p4-switch; ./build.sh; popd
 
 lldpd_0.9.5-0_amd64.deb liblldpctl-dev_0.9.5-0_amd64.deb:
+	## Install build dependency for lldpd
+	## Note: lldpd and snmpd conflict on Build-Depends, so install before build
+	sudo apt-get -y build-dep lldpd
 	$(call build_project, lldpd)
 
 quagga_0.99.24.1-2.1_amd64.deb:
@@ -156,6 +159,8 @@ brcm/syncd_1.0.0_amd64.deb brcm/libsairedis_1.0.0_amd64.deb brcm/libsairedis-dev
 	cp syncd_1.0.0_amd64.deb libsairedis_1.0.0_amd64.deb libsairedis-dev_1.0.0_amd64.deb libsaimetadata_1.0.0_amd64.deb libsaimetadata-dev_1.0.0_amd64.deb brcm/
 
 mlnx/syncd_1.0.0_amd64.deb mlnx/libsairedis_1.0.0_amd64.deb mlnx/libsairedis-dev_1.0.0_amd64.deb mlnx/libsaimetadata_1.0.0_amd64.deb mlnx/libsaimetadata-dev_1.0.0_amd64.deb: libswsscommon_1.0.0_amd64.deb libswsscommon-dev_1.0.0_amd64.deb mlnx-sdk/*.deb
+	## Install applibs first for late depending packages
+	$(call install_deb, mlnx-sdk/applibs_1.mlnx.*.deb)
 	$(foreach dep, $^, $(call install_deb, $(dep)))
 	$(call build_project, sonic-sairedis)
 	mkdir -p mlnx
