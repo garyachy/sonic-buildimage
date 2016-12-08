@@ -48,7 +48,6 @@ elif [ "$onie_platform" == "x86_64-mlnx_x86-r5.0.1400" ]; then
 elif [ "$onie_platform" == "x86_64-accton_as7512_32x-r0" ]; then
     ORCHAGENT_ARGS+="-m $MAC_ADDRESS"
     PORTSYNCD_ARGS+="-p /etc/ssw/AS7512/port_config.ini"
-    SWSSCONFIG_ARGS+="/etc/ssw/AS7512/copp.json"
 fi
 
 service rsyslog start
