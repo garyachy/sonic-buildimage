@@ -22,6 +22,8 @@ RUN apt-get -y install libpcap-dev libxml2-dev python-dev swig libsensors4-dev r
 
 COPY ["start.sh", "/usr/bin/"]
 
+COPY ["profile.ini", "/etc/ssw/AS7512/"]
+
 ## Clean up
 RUN apt-get clean -y; apt-get autoclean -y; apt-get autoremove -y
 RUN rm -rf /deps
