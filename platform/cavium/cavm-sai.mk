@@ -1,12 +1,20 @@
 # Cavium SAI
 
-CAVM_LIBSAI = libsai.deb
-$(CAVM_LIBSAI)_PATH = $(PLATFORM_PATH)/cavm_sdk
-CAVM_SAI = sai.deb
-$(CAVM_SAI)_PATH = $(PLATFORM_PATH)/cavm_sdk
-XP_TOOLS = xp-tools.deb
-$(XP_TOOLS)_PATH = $(PLATFORM_PATH)/cavm_sdk
-XPSHELL = xpshell.deb
-$(XPSHELL)_PATH = $(PLATFORM_PATH)/cavm_sdk
+CAVM_SAI_GITHUB = https://github.com/garyachy/OpenXPS/raw/sai_0.9.5/SAI/cavm-sai/
 
-SONIC_COPY_DEBS += $(CAVM_LIBSAI) $(CAVM_SAI) $(XP_TOOLS) $(XPSHELL)
+CAVM_LIBSAI = libsai.deb
+CAVM_SAI = sai.deb
+XP_TOOLS = xp-tools.deb
+XPSHELL = xpshell.deb
+
+$(CAVM_LIBSAI)_URL = $(CAVM_SAI_GITHUB)/$(CAVM_LIBSAI)
+$(CAVM_SAI)_URL = $(CAVM_SAI_GITHUB)/$(CAVM_SAI)
+$(XP_TOOLS)_URL = $(CAVM_SAI_GITHUB)/$(XP_TOOLS)
+$(XPSHELL)_URL = $(CAVM_SAI_GITHUB)/$(XPSHELL)
+SONIC_ONLINE_DEBS += $(CAVM_LIBSAI) $(CAVM_SAI) $(XP_TOOLS) $(XPSHELL)
+
+#$(CAVM_LIBSAI)_PATH = $(PLATFORM_PATH)/cavm_sdk
+#$(CAVM_SAI)_PATH = $(PLATFORM_PATH)/cavm_sdk
+#$(XP_TOOLS)_PATH = $(PLATFORM_PATH)/cavm_sdk
+#$(XPSHELL)_PATH = $(PLATFORM_PATH)/cavm_sdk
+#SONIC_COPY_DEBS += $(CAVM_LIBSAI) $(CAVM_SAI) $(XP_TOOLS) $(XPSHELL)
